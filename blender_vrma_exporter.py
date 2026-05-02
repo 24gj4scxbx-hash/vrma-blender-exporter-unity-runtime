@@ -104,10 +104,12 @@ BONE_PARENT = {
     'rightUpperLeg': 'hips', 'rightLowerLeg': 'rightUpperLeg', 'rightFoot': 'rightLowerLeg', 'rightToes': 'rightFoot',
 }
 
-# Shape keys that are *not* facial expressions (costume/prop toggles, etc.).
-# These are deliberately skipped so an animation file does not accidentally
-# carry a pose-driven costume change baked into the VRMA.
-# Add or remove entries to fit your model's naming convention.
+# Keys that toggle costumes/props — varies by model. Add your own if needed.
+# ★ The entries below are EXAMPLES ONLY, taken from one specific model. Every
+#   VRM uses its own naming convention for costume/prop shape keys, so you
+#   MUST replace this set with the names from YOUR model. These keys are
+#   deliberately skipped so a pose-driven costume change does not get baked
+#   into the exported VRMA.
 DANGEROUS_KEYS = {'Swimsuit', 'ShowGuitar', 'ShowStandMic', 'ShowHandMic',
                   'SwimSuit', 'swimsuit', 'showGuitar', 'showStandMic', 'showHandMic'}
 
