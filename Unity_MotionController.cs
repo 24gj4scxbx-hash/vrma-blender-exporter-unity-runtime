@@ -7,9 +7,13 @@
 //                              same .vrma plays correctly on any VRM
 //                              regardless of local-axis differences.
 //   2) Direct Binary Parser  : pull expression keyframes straight from the
-//                              .vrma binary (UniVRM does not currently
-//                              convert VRMC_vrm_animation expression
-//                              channels to AnimationClip curves).
+//                              .vrma binary. UniVRM converts expression
+//                              channels to AnimationCurves internally
+//                              (VrmAnimationImporter), but the full
+//                              playback path (Vrm10Runtime.Process)
+//                              requires ControlRig to be enabled. This
+//                              parser provides expression playback
+//                              independent of ControlRig.
 //   3) Expression matching   : preset names + custom names are both bound
 //                              to the target VRM's Face SkinnedMesh
 //                              BlendShapes. Works on VRM 0.x and 1.0.
@@ -294,9 +298,7 @@ public class MotionController : MonoBehaviour
             // ----------------------------------------------------------------
             // Direct Binary Parser: pull expression keyframes straight from
             // the .vrma binary buffer, then bind each to a Face BlendShape
-            // index on the target VRM. UniVRM does not currently turn
-            // VRMC_vrm_animation expression channels into AnimationClip
-            // curves, so this binary parse is the only reliable path.
+            // index on the target VRM.
             // We run it on both cache hit and cache miss; if the cached entry
             // already has expressionPairs, we skip rebuilding (the binding is
             // identical for the same VRM).
@@ -984,9 +986,7 @@ public class MotionController : MonoBehaviour
             }
 
             // Direct Binary Parser playback: drive each bound BlendShape from
-            // the keyframe arrays we extracted at load time. UniVRM does not
-            // apply VRMC_vrm_animation expression channels itself, so we run
-            // our own evaluator here and call SetBlendShapeWeight directly.
+            // the keyframe arrays we extracted at load time.
             // ExecutionOrder is 32000 - leave room for downstream controllers
             // (a procedural blink, an iris reactor, etc.) at higher orders to
             // react. For looping clips we wrap with `% clipLength`; for
